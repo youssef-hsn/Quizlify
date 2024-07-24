@@ -19,7 +19,7 @@ if ($result->num_rows > 0) {
         $quizzes[] = $row;
     }
 } else {
-    echo "you have reached the end of our extensive list";
+    echo "you have exhausted our list";
 }
 
 echo json_encode($quizzes);
