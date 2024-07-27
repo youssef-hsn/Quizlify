@@ -6,7 +6,7 @@ let score;
 let questions = [];
 
 function fetchQuestions() {
-    return fetch('/000-QuizlifyRepooo/Quizlify/Quiz/fetch_questions.php')
+    return fetch('/Quizlify/Quiz/fetch_questions.php')
         .then(response => response.json())
         .then(data => {
             questions = data.map(q => ({

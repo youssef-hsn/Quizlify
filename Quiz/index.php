@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Quiz Module</title>
+    <?php
+        include("../config.php");
+        if (isset($_GET['id'])) {
+            $quiz_id = $_GET['id'];
+            if ($quiz_id == null) {
+                header('Location: /quizlify/quizfinder/');
+                exit();
+            }
+            $quiz_data = $conn->query("SELECT * FROM quizes WHERE id = $quiz_id");
+            $quiz = $quiz_data->fetch_assoc();
+        } else {
+            header('Location: /quizlify/quizfinder/');
+            exit();
+        }
+    ?>
+    <title>Quizlify: <?php echo $quiz['title']; ?></title>
     <link rel="stylesheet" type="text/css" href="./styles.css" />
 </head>
 <body>
-    <h1 class="quiz-heading">Quiz</h1>
+    <h1 class='quiz-heading'>
+        Quiz: <?php echo $quiz['title'];  ?>
+    </h1>
     <div class="app-body">
         <h1 class="answer-key" style="display:none;">Answer Key</h1>
         <div class="question-card">
