@@ -2,9 +2,13 @@
     display: grid;
     width: 95vw;
     padding: 2vw;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 20px;
     justify-content: center;
+}
+
+#quiz {
+    border: 5px solid black;
 }
 
 .spinner {
