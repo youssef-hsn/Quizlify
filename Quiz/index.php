@@ -5,12 +5,17 @@
         include("../config.php");
         if (isset($_GET['id'])) {
             $quiz_id = $_GET['id'];
-            if ($quiz_id == null) {
+            if ($quiz_id == nulL) {
                 header('Location: /quizlify/quizfinder/');
                 exit();
             }
-            $quiz_data = $conn->query("SELECT * FROM quizes WHERE id = $quiz_id");
-            $quiz = $quiz_data->fetch_assoc();
+            $sql = "SELECT * FROM quizes WHERE id = :quiz_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':quiz_id', $quiz_id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $quiz = $stmt->fetch();
+
         } else {
             header('Location: /quizlify/quizfinder/');
             exit();

@@ -5,9 +5,7 @@ const loader = $('#loader');
 const loadButton = $('#load-button');
 const loadingIcon = $('.loading-icon').first();
 
-console.log("Hello World");
 function loadQuizzes() {
-    console.log("Load Quizzes");
     loadButton.hide();
     loadingIcon.show();
     $.ajax({
@@ -15,14 +13,14 @@ function loadQuizzes() {
         method: 'GET',
         data: { offset: offset },
         success: function(response) {
-            let quizzes = JSON.parse(response);
-            console.log(quizzes.length);
+            let quizzes = response;
             if (quizzes.length < 10) {
                 anyMore = false;
             }
             
             offset += quizzes.length;
 
+            console.log(quizzes);
             $.each(quizzes, function(index, quiz) {
                 quizContainer.children().last().before(
                     `<div class="quiz">
