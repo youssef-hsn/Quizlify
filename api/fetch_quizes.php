@@ -19,7 +19,8 @@ if ($result->num_rows > 0) {
         $quizzes[] = $row;
     }
 } else {
-    echo "you have exhausted our list";
+    http_response_code(404);
+    echo json_encode(array("message" => "Not Found: you have exhausted our list"));
 }
 
 echo json_encode($quizzes);
