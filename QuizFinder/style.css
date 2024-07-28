@@ -4,6 +4,12 @@ body {
     align-items: center;
     height: 80vh;
 }
+h1 {
+    margin: 0;
+}
+p {
+    margin-top: 5px;
+}
 form {
  padding: 3vw;
  border: 1vw solid rgb(91, 91, 255);
@@ -15,8 +21,45 @@ form {
 #quiz-id {
     margin: .4vh 0 1vh 0;
     padding: 1vh;
-    width: 20vw;
+    width: calc(100% - 2vh);
+}
+#feedback {
+    display: flex;
+    align-items:center;
+    margin: 20px 0 10px 0;
+    max-width: 20vw;
+}
+
+#feedback img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 5px;
+}
+
+#quiz-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+}
+
+#quiz-title {
+    font-size: 24px;
+    margin: 0;
+    max-width: 100%;
+}
+
+#quiz-description {
+    font-size: 16px;
+    max-width: 100%;
+    margin: 5px 0 0 0;
 }
 #go-button {
-    width: 25%;
-}   
+    
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(91, 91, 255);
+    color: white;
+    cursor: pointer;
+}

@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
     <title>Find your Qui</title>
 </head>
 <body>
     <form action="/quizlify/quiz/" method="get">
+        <h1>Find Your Quiz</h1>
+        <p>Enter Quiz ID to take the Quiz</p>
         <label for="quiz-id">Quiz ID:</label>
-        <input type="text" id="quiz-id" name="id">
+        <input type="number" id="quiz-id" name="id">
+        <section id="feedback">
+            <img src="" alt="quiz image" hidden>
+            <div id="quiz-info">
+                <h6 id="quiz-title"></h6>
+                <p id="quiz-description"></p>
+            </div>
+        </section>
         <div>
             <button type="submit" id="go-button">Go</button>
-            <a href="/quizlify/home/" id="home-link">Home</a>
+            <a href="/quizlify/home/" id="home-link">Browse Top Quizes</a>
         </div>
     </form>
 </body>
