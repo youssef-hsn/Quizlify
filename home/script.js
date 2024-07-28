@@ -20,7 +20,6 @@ function loadQuizzes() {
             
             offset += quizzes.length;
 
-            console.log(quizzes);
             $.each(quizzes, function(index, quiz) {
                 quizContainer.children().last().before(
                     `<div class="quiz">

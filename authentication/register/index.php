@@ -8,9 +8,7 @@
         $redirectTo = $_GET['destination']??"/quizlify/home/"; // this is for when someone tries to take a quiz but isn't logged in
     ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
-    <script src="script.js" defer>
-        console.log("hi");
-    </script>
+    <script src="script.js" defer></script>
     <title>Register Now!</title>
 </head>
 <body>
