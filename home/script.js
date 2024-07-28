@@ -26,7 +26,7 @@ function loadQuizzes() {
                         <img src="https://api.dicebear.com/9.x/icons/svg?seed=${quiz.title}"/>
                         <h2>${quiz.title}</h2>
                         <p>${quiz.description}</p>
-                        <a href="/quizlify/quiz/index.php?id=${quiz.id}">Try it out</a>
+                        <a href="/quizlify/Quiz/fetch_questions.php?id=${quiz.id}">Try it out</a>
                     </div>`
                 );
             });
