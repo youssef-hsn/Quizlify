@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 24, 2024 at 12:37 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Jul 28, 2024 at 10:17 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,20 +34,6 @@ CREATE TABLE `options` (
   `points` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `options`
---
-
-INSERT INTO `options` (`id`, `question_id`, `option_text`, `points`) VALUES
-(1, 1, 'World Whole Web', 0),
-(2, 1, 'Wide World Web', 0),
-(3, 1, 'Web World Wide', 0),
-(4, 1, 'World Wide Web', 1),
-(5, 2, 'Arithmetic logic unit, Mouse', 0),
-(6, 2, 'Arithmetic logic unit, Control unit', 1),
-(7, 2, 'Arithmetic logic unit, Integrated Circuits', 0),
-(8, 2, 'Control Unit, Monitor', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -60,14 +46,6 @@ CREATE TABLE `questions` (
   `quiz_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `questions`
---
-
-INSERT INTO `questions` (`id`, `question_text`, `quiz_id`) VALUES
-(1, 'WWW stands for?', 1),
-(2, 'Which of the following are components of Central Processing Unit (CPU)?', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -79,15 +57,26 @@ CREATE TABLE `quizes` (
   `title` varchar(32) NOT NULL,
   `description` text NOT NULL,
   `creator_id` int(11) NOT NULL,
-  `creation_date` timestamp NOT NULL DEFAULT current_timestamp()
+  `creation_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `popularity` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `quizes`
 --
 
-INSERT INTO `quizes` (`id`, `title`, `description`, `creator_id`, `creation_date`) VALUES
-(1, 'Sample Quiz', 'This is a sample quiz', 1, '2024-07-23 21:00:00');
+INSERT INTO `quizes` (`id`, `title`, `description`, `creator_id`, `creation_date`, `popularity`) VALUES
+(1, 'Science Quiz', 'A basic science quiz to test your knowledge.', 0, '2024-07-23 21:00:00', 100),
+(2, 'Math Quiz', 'Challenge yourself with these math problems.', 0, '2024-07-23 21:00:00', 150),
+(3, 'History Quiz', 'How well do you know world history?', 0, '2024-07-23 21:00:00', 200),
+(4, 'Geography Quiz', 'Test your geography skills.', 0, '2024-07-23 21:00:00', 120),
+(5, 'Literature Quiz', 'A quiz on classic literature.', 0, '2024-07-23 21:00:00', 180),
+(6, 'Physics Quiz', 'Questions covering fundamental physics concepts.', 0, '2024-07-23 21:00:00', 170),
+(7, 'Chemistry Quiz', 'Test your knowledge of chemistry.', 0, '2024-07-23 21:00:00', 160),
+(8, 'Biology Quiz', 'How much do you know about biology?', 0, '2024-07-23 21:00:00', 140),
+(9, 'Programming Quiz', 'A quiz for aspiring programmers.', 0, '2024-07-23 21:00:00', 190),
+(10, 'Art Quiz', 'Test your knowledge of art history and techniques.', 0, '2024-07-23 21:00:00', 110),
+(11, 'Science Quiz2', 'A basic science quiz to test your knowledge.', 0, '2024-07-23 21:00:00', 100);
 
 -- --------------------------------------------------------
 
@@ -103,12 +92,24 @@ CREATE TABLE `scores` (
   `scored_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `scores`
+-- Table structure for table `tokens`
 --
 
-INSERT INTO `scores` (`id`, `user_id`, `quiz_id`, `score`, `scored_at`) VALUES
-(1, 2, 1, 0, '2024-07-23 21:00:00');
+CREATE TABLE `tokens` (
+  `user_id` int(11) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `expires` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tokens`
+--
+
+INSERT INTO `tokens` (`user_id`, `token`, `expires`) VALUES
+(5, 'd874eabce53e4df8c2f02408400e5a605abe76d538a3b2cd0c37cbefab7233f9', '2024-07-29 19:09:53');
 
 -- --------------------------------------------------------
 
@@ -127,8 +128,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`) VALUES
-(1, 'teacher1', 'password1'),
-(2, 'student1', 'password2');
+(0, 'youscef', 'www'),
+(2, 'youssef', '$2y$10$u8ns3RHjz3aUJ4s72HYvu.6wk8zl14PLHRQxwBBDTLQENYdPeoGhO'),
+(4, 'youssef2', '$2y$10$tMoWg.rdwc16Yt7xy5JzAuMclhHWiB.xDQB5VuaY5sNDzl6V1WAfW'),
+(5, 'youssef3', '$2y$10$sTjCYnmHrQ5q51is.ZTIAONgI6fwzvHs8N5eVCNbHT78JWEpimxie');
 
 --
 -- Indexes for dumped tables
@@ -176,31 +179,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `options`
 --
 ALTER TABLE `options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `quizes`
 --
 ALTER TABLE `quizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `scores`
 --
 ALTER TABLE `scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
