@@ -9,7 +9,7 @@ function loadQuizzes() {
     loadButton.hide();
     loadingIcon.show();
     $.ajax({
-        url: '/quizlify/api/fetch_quizes.php',
+        url: '/quizlify/api/fetchQuizes.php',
         method: 'GET',
         data: { offset: offset },
         success: function(response) {
