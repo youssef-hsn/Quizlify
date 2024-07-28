@@ -13,7 +13,7 @@ if ($limit > 20) {
 }
 
 try {
-    $sql = "SELECT id, title, description FROM quizes ORDER BY popularity DESC LIMIT :limit OFFSET :offset";
+    $sql = "SELECT id, title, description FROM quizes ORDER BY id DESC LIMIT :limit OFFSET :offset";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
     $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
