@@ -14,9 +14,9 @@
 <body>
     <div class="login">
         <h1>Test Yourself!</h1>
-        <p><?php echo $_GET['message']; ?></p>
+        <p><?php echo $_GET['message'] ?? ''; ?></p>
         <form action="/quizlify/api/createAccount.php" method="post">
-            <input type="text" hidden name="destination" value="<?php echo $_GET['destination']; ?>">
+            <input type="text" hidden name="destination" value="<?php echo $_GET['destination'] ?? ''; ?>">
             
             <label for="username">Username <img src="" id="isValidUsername" alt=""></label>
             <input type="text" name="username" id="username" placeholder="What would you like us to call you?" required>
