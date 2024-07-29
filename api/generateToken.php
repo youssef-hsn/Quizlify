@@ -1,6 +1,4 @@
 <?php
-include("../config.php");
-
 if (!isset($_POST['username']) || !isset($_POST['password'])) {
     http_response_code(400);
     echo json_encode(['error' => 'Missing username or password']);
@@ -9,6 +7,8 @@ if (!isset($_POST['username']) || !isset($_POST['password'])) {
 
 $username = $_POST['username'];
 $password = $_POST['password']; 
+
+include("../config.php");
 
 $sql = "SELECT id, password FROM users WHERE username = :username";
 $stmt = $pdo->prepare($sql);
@@ -25,10 +25,6 @@ if (!$result || !password_verify($password, $result['password'])) {
 header('Content-Type: application/json');
 $token = hash('sha256', $username . time());
 
-$sql = "DELETE FROM tokens WHERE token = :token";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':token', $token, PDO::PARAM_STR);
-$stmt->execute();
 $sql = "DELETE FROM tokens WHERE user_id = :user_id";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':user_id', $result['id'], PDO::PARAM_INT);
@@ -44,8 +40,12 @@ $stmt->bindParam(':expires', $expires, PDO::PARAM_STR);
 $stmt->execute();
 
 setcookie('token', $token, time() + 86400, "/");
+$_SESSION["user"] = array(
+    "id" => $result['id'],
+    "username" => $username
+);
 
-if (isset($_POST['greaterDestination'])) {
+if (isset($_POST['greaterDestination']) && !empty($_POST['greaterDestination'])) {
     header("Location: " . $_POST['greaterDestination']);
 }  else {
     header("Location: /quizlify/home/");
