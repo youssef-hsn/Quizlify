@@ -12,14 +12,23 @@ body {
 .login {
     margin-top: -200px;
 	width:300px;
-	height:200px;
 
     background-color: rgba(255, 255, 255, 0.405);
-    padding: 15px 30px 90px 30px;
+    padding: 15px 30px 30px 30px;
     border-radius: 20px;
 }
 .login h1 { 
     color: #333; text-align:center;
+}
+
+#message {
+    background-color: rgb(244, 75, 75);
+    border: darkred 1px solid;
+    border-radius: 5px;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    max-width: 100%;
 }
 
 input { 
