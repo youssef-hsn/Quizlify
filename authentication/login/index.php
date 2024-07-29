@@ -12,7 +12,7 @@
 <body>
     <div class="login">
         <h1>Test Yourself!</h1>
-        <p id="message"><?php echo $_GET['message'] ?? ''; ?></p>
+        <p id="message" <?php echo isset($_GET['message'])?:"hidden";?>><?php echo $_GET['message'] ?? ''; ?></p>
         <form action="/quizlify/api/generateToken.php" method="post">
             <input type="text" hidden name="greaterDestination" value="<?php echo $_GET['greaterDestination']; ?>">
             <input type="text" name="username" placeholder="Username" required="required" />
