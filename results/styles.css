@@ -1,0 +1,8 @@
+/* Add these styles to styles.css or create a new CSS file and link it */
+.correct {
+    color: green;
+}
+
+.selected {
+    font-weight: bold;
+}

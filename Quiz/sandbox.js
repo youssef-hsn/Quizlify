@@ -1,4 +1,3 @@
-let question;
 let form;
 let res;
 let qno;
@@ -6,7 +5,9 @@ let score;
 let questions = [];
 
 function fetchQuestions() {
-    return fetch('/Quizlify/Quiz/fetch_questions.php')
+    const urlParams = new URLSearchParams(window.location.search);
+    const quizId = urlParams.get('id');
+    return fetch(`/quizlify/Quiz/fetch_questions.php?id=${quizId}`)
         .then(response => response.json())
         .then(data => {
             questions = data.map(q => ({
@@ -16,6 +17,44 @@ function fetchQuestions() {
                 score: q.score
             }));
         });
+}
+
+function createQuestionHTML(question, index) {
+    const questionHTML = document.createElement('div');
+    questionHTML.classList.add('question');
+
+    const questionTitle = document.createElement('h2');
+    questionTitle.textContent = `${index + 1} - ${question.title}`;
+    questionHTML.appendChild(questionTitle);
+
+    question.options.forEach((option, idx) => {
+        const optionContainer = document.createElement('div');
+        
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.id = `q${index}_op${idx}`;
+        radio.name = `q${index}`;
+        radio.value = idx;
+        
+        const label = document.createElement('label');
+        label.htmlFor = `q${index}_op${idx}`;
+        label.textContent = option;
+        
+        optionContainer.appendChild(radio);
+        optionContainer.appendChild(label);
+        questionHTML.appendChild(optionContainer);
+    });
+
+    return questionHTML;
+}
+
+function displayQuestions() {
+    const container = document.getElementById('questions-container');
+    container.innerHTML = ''; // Clear previous content
+
+    questions.forEach((question, index) => {
+        container.appendChild(createQuestionHTML(question, index));
+    });
 }
 
 function restartScreen() {
@@ -33,102 +72,52 @@ function restartScreen() {
     document.querySelector('button').style.display = 'block';
 }
 
-
-function resetradio() {
-    document.querySelectorAll('[type="radio"]').forEach((radio) => {
-        radio.removeAttribute("disabled");
-    });
-    res.setAttribute("class","idle");
-    res.innerHTML = "Empty";
-}
-
 function evaluate() {
-    if (form.op.value == questions[qno].answer) {
-        res.setAttribute('class', 'correct');
-        res.innerHTML = 'Correct';
-        score += questions[qno].score;
-    } else {
-        res.setAttribute('class', 'incorrect');
-        res.innerHTML = 'Incorrect';
-    }
-    document.querySelectorAll('[type="radio"]').forEach((radio) => {
-        radio.setAttribute('disabled', 'disabled');
+    score = 0;
+    questions.forEach((question, index) => {
+        const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selectedOption && selectedOption.value === question.answer) {
+            score += question.score;
+        }
     });
-}
-
-
-function getNextQuestion() {
-    qno++;
-    ques = questions[qno];
-    question.innerHTML = ques.title;
-    const labels = document.querySelectorAll('label');
-    labels.forEach((label, idx) => {
-        label.innerHTML = ques.options[idx];
-    }); 
+    res.setAttribute('class', 'correct');
+    res.innerHTML = 'Quiz submitted successfully';
+    restartScreen();
 }
 
 function handleSubmit(e) {
     e.preventDefault();
-    if (!form.op.value) {
-        alert('Please select an option');
-    } else if (form.submit.classList.contains('submit')) {
-        evaluate();
-        form.submit.classList.remove('submit');
-        form.submit.value = 'Next';
-        form.submit.classList.add('next');
-    } else if (qno < questions.length - 1 && form.submit.classList.contains('next')) {
-        getNextQuestion();
-        form.submit.classList.remove('next');
-        form.submit.value = 'Submit';
-        form.submit.classList.add('submit');
-        form.reset();
-    } else if (form.submit.classList.contains('next')) {
-        restartScreen();
-        form.submit.classList.remove('next');
-        form.submit.value = 'Submit';
-        form.submit.classList.add('submit');
-        form.reset();
-    }
+
+    // Calculate score
+    score = 0;
+    const results = questions.map((question, index) => {
+        const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+        const isCorrect = selectedOption && selectedOption.value === question.answer;
+        if (isCorrect) {
+            score += question.score;
+        }
+        return {
+            question: question.title,
+            options: question.options,
+            selected: selectedOption ? selectedOption.value : null,
+            correct: question.answer
+        };
+    });
+
+    // Redirect to the result page with score and results
+    const resultData = { score, results };
+    const queryString = `?data=${encodeURIComponent(JSON.stringify(resultData))}`;
+    window.location.href = `/quizlify/results/index.php${queryString}`;
 }
 
-function getNextQuestion() {
-    qno++;
-    ques = questions[qno];
-    question.innerHTML = ques.title;
-    const labels = document.querySelectorAll('label');
-    labels.forEach((label, idx) => {
-        label.innerHTML = ques.options[idx];
-    });
-    document.querySelectorAll('[type="radio"]').forEach((radio) => {
-        radio.removeAttribute('disabled');
-    });
-    res.setAttribute('class', 'idle');
-    res.innerHTML = 'Empty';
-}
-
-function restartScreen() {
-    document.querySelector('.quiz-heading').innerHTML = `Score: ${score}`;
-    const card = document.querySelector('.question-card');
-    card.innerHTML = "<ul>";
-    questions.forEach((ques, idx) => {
-        const html = `
-            <li>${ques.title} <div class="answer-label">${ques.options[ques.answer]}</div></li>
-        `;
-        card.innerHTML += html;
-    });
-    card.innerHTML += "</ul>";
-    document.querySelector('.answer-key').style.display = 'block';
-    document.querySelector('button').style.display = 'block';
-}
 
 function init() {
     fetchQuestions().then(() => {
-        question = document.querySelector('#question');
-        form = document.querySelector('form');
-        res = document.querySelector('#res');
+        form = document.getElementById('quiz-form');
+        res = document.getElementById('res');
         qno = -1;
         score = 0;
-        getNextQuestion();
+        displayQuestions();
         form.addEventListener('submit', handleSubmit);
         document.querySelector('button').addEventListener('click', init);
     }).catch(error => {
@@ -138,4 +127,3 @@ function init() {
 
 document.querySelector('button').addEventListener('click', init);
 init();
-

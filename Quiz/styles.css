@@ -92,3 +92,12 @@ button {
     margin: 0px 10px;
     display: none;
 }
+
+/* Add these styles to styles.css or create a new CSS file and link it */
+.correct {
+    color: green;
+}
+
+.selected {
+    font-weight: bold;
+}

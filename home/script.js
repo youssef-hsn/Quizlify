@@ -17,7 +17,7 @@ function loadQuizzes() {
             if (quizzes.length < 10) {
                 anyMore = false;
             }
-            
+
             offset += quizzes.length;
 
             $.each(quizzes, function(index, quiz) {
@@ -26,7 +26,7 @@ function loadQuizzes() {
                         <img src="https://api.dicebear.com/9.x/icons/svg?seed=${quiz.title}"/>
                         <h2>${quiz.title}</h2>
                         <p>${quiz.description}</p>
-                        <a href="/quizlify/Quiz/fetch_questions.php?id=${quiz.id}">Try it out</a>
+                        <a href="/quizlify/Quiz/index.php?id=${quiz.id}">Try it out</a>
                     </div>`
                 );
             });
@@ -34,11 +34,11 @@ function loadQuizzes() {
         error: function(xhr) {
             alert('Error: ' + xhr.statusText);
         }
-    }) .then(function() {
+    }).then(function() {
         if (anyMore) {
             loadButton.show();
         } else {
-            loader.html('No more quizes');
+            loader.html('No more quizzes');
         }
 
         loadingIcon.hide();
@@ -47,5 +47,4 @@ function loadQuizzes() {
 
 loadQuizzes();
 
-loadButton.on('click', loadQuizzes); 
-
+loadButton.on('click', loadQuizzes);
