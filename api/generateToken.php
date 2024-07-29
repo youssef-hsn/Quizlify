@@ -23,7 +23,7 @@ if (!$result || !password_verify($password, $result['password'])) {
 }
 
 header('Content-Type: application/json');
-$token = bin2hex(random_bytes(32));
+$token = hash('sha256', $username . time());
 
 $sql = "DELETE FROM tokens WHERE token = :token";
 $stmt = $pdo->prepare($sql);
@@ -43,7 +43,7 @@ $stmt->bindParam(':token', $token, PDO::PARAM_STR);
 $stmt->bindParam(':expires', $expires, PDO::PARAM_STR);
 $stmt->execute();
 
-setcookie('token', $token, time() + 86400);
+setcookie('token', $token, time() + 86400, "/");
 
 if (isset($_POST['greaterDestination'])) {
     header("Location: " . $_POST['greaterDestination']);
