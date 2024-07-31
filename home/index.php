@@ -9,7 +9,27 @@
   <title>Top Quizes Worldwide</title>
 </head>
 <body>
-  <h1>Top Quizes Worldwide</h1>
+  <nav>
+    <h1>Top Quizes Worldwide</h1>
+    <?php
+      include "../config.php";
+      if (isset($_SESSION["user"])) {
+        echo '
+        <ul>
+          <li><a href="/quizlify/createQuiz/">Create Quiz</a></li>
+          <li><a href="/quizlify/quizFinder/">Find Quiz</a></li>
+          <li><a href="/quizlify/api/logout.php">Logout</a></li>
+        </ul>
+        ';
+      } else {
+        echo '
+        <ul>
+          <li><a href="/quizlify/authentication/login/">Login</a></li>
+        </ul>
+        ';
+      }
+    ?>
+  </nav>
   <section id="quizes">
     <div class="loader" id="loader">
       <button id="load-button" hidden>Load More</button>
