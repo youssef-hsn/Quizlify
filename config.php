@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$db = 'quizlify';
-$user = 'root';
-$pass = '';
+$db = 'u590187967_quizlify';
+$user = 'u590187967_root';
+$pass = 'nb5Bp#AbnRmg';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
