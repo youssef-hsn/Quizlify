@@ -15,7 +15,6 @@ function deleteQuestion(test) {
 $("#create-quiz").on("click", (c) => {
     const title = $("#title").val();
 
-    console.log(title);
     if (title === "") {
         $("#isValidTitle").attr('src', '/quizlify/images/exclamationMark.png');
         $("#isValidTitle").attr('alt', 'Title cannot be empty');
@@ -29,24 +28,29 @@ $("#create-quiz").on("click", (c) => {
     const input = $("#questions").children();
     let questions = [];
     input.each((i, q) => {
-        const question = q.children[0].value;
-        const answers = q.children[1].children;
+        const question = q.children[1].value;
+        const answers = q.children[3].children;
         console.log(answers)
         let answersList = [];
-        answers.each((i, a) => {
-            answersList.push(a.children[0].value);
-            answersList.push(a.children[1].value);
+        for (let a of answers) {
+            answersList.push({
+                text: a.children[0].value,
+                points: a.children[1].value
+            });
+        }
+        questions.push({
+            question: question,
+            answers: answersList
         })
-        console.log(questions)
-        // $.ajax({
-        //     url: '/quizlify/api/createQuiz.php',
-        //     method: 'POST',
-        //     data: {
-        //         title: title,
-        //         description: description,
-        //         question: question,
-        //         answers: answersList
-        //     }
-        // })
+    })
+    $.ajax({
+        url: '/quizlify/api/createQuiz.php',
+        method: 'POST',
+        data: {
+            creator_id: $("#id").val(),
+            title: title,
+            description: description,
+            questions: questions
+        }
     })
 })

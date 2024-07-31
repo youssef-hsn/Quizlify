@@ -21,13 +21,16 @@
 </head>
 <body>
     <h1>Create your own quiz</h1>
-    
+    <input type="number" hidden name="id" id="id" value=<?php echo $_SESSION["user"]["id"]; ?>>
+
     <h2>Quiz Details</h2>
     <label for="title">Title <img id="isValidTitle" src="" alt=""></label>
     <input class="mb" type="text" name="title" id="title">
     <br>
     <label for="description">Description</label>
-    <textarea class="mb" name="description"></textarea>
+    <textarea class="mb" name="description" id="description"></textarea>
+
+    
 
     <h2>Questions</h2>
     <ol id="questions">
@@ -35,9 +38,8 @@
             <label for="question">Question</label>
             <input type="text" name="question">
             <h4>Answers: </h4>
-            <ol id="answers">
+            <ol>
                 <li>
-                    <label for="answer">Corect Answer</label>
                     <input type="text" name="answer">
                     <input class="answer-points" type="number" name="points" value=1 disabled>
                 </li>
@@ -60,5 +62,6 @@
     <button id="add-question">New Question</button>
 
     <button id="create-quiz">Create Quiz</button>
+
 </body>
 </html>
