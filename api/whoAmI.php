@@ -1,6 +1,6 @@
 <?php
 if (!isset($_COOKIE['token'])) {
-    header("Location: /quizlify/authentication/login/?message=You must be logged in to create a quiz");
+    header("Location: /quizlify/authentication/login/");
     exit();
 }
 if (!isset($_SESSION["user"])) {
