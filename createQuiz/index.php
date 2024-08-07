@@ -8,10 +8,10 @@
     <script src="script.js" defer></script>
     <title>Create your own quiz</title>
     <?php 
-        if (!isset($_COOKIE['token'])) {
+        if (!isset($_COOKIE['token']) || $_COOKIE['token'] == null) {
             header("Location: /quizlify/authentication/login/?message=You must be logged in to create a quiz&greaterDestination=/quizlify/createQuiz/");
         }
-        
+        echo ($_COOKIE.token)
         include "../config.php";
 
         if (!isset($_SESSION["user"])) {

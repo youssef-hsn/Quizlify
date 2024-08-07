@@ -13,7 +13,7 @@ function fetchQuestions() {
             questions = data.map(q => ({
                 title: q.title,
                 options: q.options,
-                answer: q.answer.toString(),
+                answer: q.answer?q.answer.toString():"",
                 score: q.score
             }));
         });
